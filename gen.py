@@ -77,7 +77,7 @@ if __name__ == "__main__":
     # 创建命令行解析器
     parser = argparse.ArgumentParser(description="Extract images from Word document")
     parser.add_argument("-o", "--out", help="Output dir")
-    parser.add_argument("-t", "--target", help="Target directory to save the images", default=".")
+    parser.add_argument("-t", "--target", help="Target directory to read the images", default=".")
     args = parser.parse_args()
 
     create_word_document(args.target, args.out)
