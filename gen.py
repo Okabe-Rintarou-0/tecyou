@@ -1,7 +1,9 @@
 import argparse
 import datetime
 import os
+import sys
 
+from PyQt6.QtWidgets import QApplication, QFileDialog
 from PIL import Image
 from docx import Document
 from docx.shared import Cm
@@ -74,10 +76,29 @@ def get_image_files(images_dir):
 
 
 if __name__ == "__main__":
-    # 创建命令行解析器
-    parser = argparse.ArgumentParser(description="Extract images from Word document")
-    parser.add_argument("-o", "--out", help="Output dir")
-    parser.add_argument("-t", "--target", help="Target directory to read the images", default=".")
-    args = parser.parse_args()
+    # 初始化Qt应用程序
+    app = QApplication(sys.argv)
 
-    create_word_document(args.target, args.out)
+    # 使用QFileDialog获取目标目录
+    target_directory = QFileDialog.getExistingDirectory(
+        None, "选择目标目录", ".", QFileDialog.ShowDirsOnly
+    )
+
+    # 如果用户取消选择目标目录，退出程序
+    if not target_directory:
+        sys.exit()
+
+    # 使用QFileDialog获取输出目录
+    output_directory = QFileDialog.getExistingDirectory(
+        None, "选择输出目录", ".", QFileDialog.ShowDirsOnly
+    )
+
+    # 如果用户取消选择输出目录，退出程序
+    if not output_directory:
+        sys.exit()
+
+    # 调用你的处理函数
+    create_word_document(target_directory, output_directory)
+
+    # 程序执行完毕，退出应用程序
+    sys.exit(app.exec_())
